@@ -1,0 +1,1737 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{color-scheme:light}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- CSP: nada puede salir de esta página (sin red, sin recursos externos) -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; img-src data:; base-uri 'none'; form-action 'none'">
+<meta name="theme-color" content="#0f172a">
+<meta name="color-scheme" content="dark">
+<title>VaultFin PRO v6.2 • Bóveda Financiera</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg-950:#020617;--bg-900:#0f172a;--bg-800:#1e293b;--bg-700:#334155;--bg-600:#475569;
+  --t100:#f1f5f9;--t200:#e2e8f0;--t300:#cbd5e1;--t400:#94a3b8;--t500:#64748b;
+  --brand-400:#4ade80;--brand-500:#22c55e;--brand-600:#16a34a;
+  --emerald:#34d399;--sky:#38bdf8;--rose:#fb7185;--rose-500:#f43f5e;--amber:#fbbf24;
+}
+html{color-scheme:dark;-webkit-text-size-adjust:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg-900);color:var(--t100);min-height:100vh;display:flex;flex-direction:column;line-height:1.45}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none}
+button:disabled{opacity:.5;cursor:not-allowed}
+:focus-visible{outline:2px solid var(--brand-500);outline-offset:2px}
+code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.85em}
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-thumb{background:rgba(71,85,105,.6);border-radius:9999px}
+.hidden{display:none!important}
+
+/* ---------- Colores de texto ---------- */
+.c-emerald{color:var(--emerald)}.c-rose{color:var(--rose)}.c-sky{color:var(--sky)}
+.c-amber{color:var(--amber)}.c-brand{color:var(--brand-400)}.c-muted{color:var(--t400)}.c-dim{color:var(--t500)}
+
+/* ---------- Barra superior ---------- */
+.topbar{background:var(--bg-800);border-bottom:1px solid var(--bg-700);padding:.75rem 1rem;position:sticky;top:0;z-index:40;box-shadow:0 4px 6px -1px rgba(0,0,0,.35)}
+.topbar-in{max-width:80rem;margin:0 auto;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:.75rem}
+.brand{display:flex;align-items:center;gap:.75rem}
+.logo{background:var(--brand-500);color:var(--bg-900);width:2.5rem;height:2.5rem;border-radius:.75rem;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.2rem}
+.brand h1{font-size:1.1rem;font-weight:700;letter-spacing:-.02em}
+.brand h1 span{color:var(--brand-400);font-weight:600}
+.brand-row{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem}
+.brand p{font-size:.75rem;color:var(--t400)}
+.badge{font-size:.625rem;padding:.1rem .5rem;border-radius:9999px;font-weight:500;border:1px solid var(--bg-600);background:var(--bg-700);color:var(--t300)}
+.badge-brand{background:rgba(34,197,94,.2);color:var(--brand-400);border-color:rgba(34,197,94,.35)}
+.badge-ok{background:rgba(52,211,153,.15);color:var(--emerald);border-color:rgba(52,211,153,.3)}
+.badge-warn{background:rgba(245,158,11,.15);color:var(--amber);border-color:rgba(245,158,11,.3)}
+.toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem}
+.btn{background:var(--bg-700);padding:.5rem .75rem;border-radius:.5rem;font-size:.75rem;font-weight:500;transition:background .15s;display:inline-flex;align-items:center;gap:.25rem;white-space:nowrap}
+.btn:hover:not(:disabled){background:var(--bg-600)}
+.btn-primary{background:var(--brand-600);color:#fff;font-weight:600}
+.btn-primary:hover:not(:disabled){background:var(--brand-500)}
+.btn-green{color:var(--emerald);border:1px solid rgba(52,211,153,.3)}
+.btn-amber{color:var(--amber);border:1px solid rgba(245,158,11,.3)}
+.btn-brand{color:var(--brand-400);border:1px solid rgba(34,197,94,.3)}
+.btn-danger{color:var(--rose)}
+.btn-danger:hover:not(:disabled){color:#fda4af}
+.btn-file{cursor:pointer}
+
+/* ---------- Layout ---------- */
+main{flex:1;max-width:80rem;width:100%;margin:0 auto;padding:1rem;display:grid;grid-template-columns:minmax(0,1fr);gap:1.5rem}
+.stack{display:flex;flex-direction:column;gap:1.25rem;min-width:0}
+.stack-lg{display:flex;flex-direction:column;gap:1.5rem;min-width:0}
+.card{background:var(--bg-800);border:1px solid var(--bg-700);border-radius:1rem;padding:1rem;box-shadow:0 1px 2px rgba(0,0,0,.25)}
+.card-title{font-size:.875rem;font-weight:600}
+.card-head{display:flex;justify-content:space-between;align-items:center;gap:.5rem;margin-bottom:.75rem}
+.pill{font-size:.75rem;background:var(--bg-700);color:var(--t300);padding:.1rem .5rem;border-radius:9999px}
+.eyebrow{font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--t400)}
+.summary{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.75rem}
+.summary .card .lbl{font-size:.6875rem;font-weight:500;color:var(--t400)}
+.summary .card h3{font-size:1.15rem;font-weight:700;margin-top:.25rem;word-break:break-word}
+.summary .card small{display:block;font-size:.625rem;color:var(--t500);margin-top:.125rem}
+.link-btn{font-size:.625rem;color:var(--brand-400)}
+.link-btn:hover{text-decoration:underline}
+.row-between{display:flex;justify-content:space-between;align-items:center;gap:.5rem}
+@media(min-width:640px){.summary{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(min-width:1024px){main{grid-template-columns:minmax(0,2fr) minmax(0,1fr);padding:1.5rem}}
+@media(max-width:700px){.topbar{position:static}}
+
+/* ---------- Pestañas ---------- */
+.tabs{display:flex;background:var(--bg-800);padding:.25rem;border-radius:.75rem;border:1px solid var(--bg-700);width:fit-content;max-width:100%}
+.tab{padding:.375rem 1rem;border-radius:.5rem;font-size:.75rem;font-weight:600;color:var(--t400);transition:all .15s}
+.tab:hover{color:var(--t200)}
+.tab.active{background:var(--brand-600);color:#fff}
+
+/* ---------- Chat ---------- */
+.chat{display:flex;flex-direction:column;height:430px;padding:0;overflow:hidden}
+.chat-head{padding:.75rem 1rem;border-bottom:1px solid var(--bg-700);display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:.5rem;background:rgba(30,41,59,.5)}
+.chat-title{display:flex;align-items:center;gap:.5rem;font-size:.875rem;font-weight:600}
+.chip{font-size:.75rem;background:var(--bg-700);border:1px solid var(--bg-600);padding:.375rem .75rem;border-radius:9999px;display:inline-flex;align-items:center;gap:.375rem;transition:background .15s}
+.chip:hover{background:var(--bg-600)}
+.chip.on{border-color:var(--brand-500);background:rgba(34,197,94,.12)}
+.dot{width:.5rem;height:.5rem;border-radius:9999px;background:var(--t400);display:inline-block}
+.dot.on{background:var(--brand-500);animation:pulse 1.4s ease-in-out infinite}
+.dot-lg{width:.75rem;height:.75rem;background:var(--brand-500)}
+.dot-lg.listening{background:var(--amber);animation:pulse 1.2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.messages{flex:1;padding:1rem;overflow-y:auto;display:flex;flex-direction:column;gap:.75rem;font-size:.875rem}
+.msg{padding:.75rem;border-radius:.75rem;max-width:85%;white-space:pre-line;word-break:break-word}
+.msg-user{background:rgba(22,163,74,.3);border:1px solid rgba(34,197,94,.4);margin-left:auto;color:var(--t100)}
+.msg-bot{background:rgba(51,65,85,.6);color:var(--t200)}
+.live{padding:.375rem 1rem;background:rgba(15,23,42,.9);font-size:.75rem;color:var(--brand-400);font-style:italic;border-top:1px solid rgba(51,65,85,.5)}
+.chat-form{padding:.75rem;border-top:1px solid var(--bg-700);display:flex;gap:.5rem}
+.chat-form input{flex:1;min-width:0;background:var(--bg-900);border:1px solid var(--bg-700);border-radius:.75rem;padding:.625rem 1rem;font-size:.875rem}
+.chat-form input:focus{outline:none;border-color:var(--brand-500)}
+.chat-form input::placeholder{color:var(--t500)}
+.icon-btn{background:var(--bg-700);border:1px solid var(--bg-600);color:var(--brand-400);padding:.625rem;border-radius:.75rem;display:flex;align-items:center;justify-content:center}
+.icon-btn:hover{background:var(--bg-600)}
+.icon-btn.on{border-color:var(--amber);color:var(--amber)}
+.quick{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.5rem}
+@media(min-width:640px){.quick{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.quick button{background:rgba(51,65,85,.5);border:1px solid rgba(71,85,105,.5);padding:.625rem;border-radius:.75rem;font-size:.75rem;font-weight:500;text-align:left;transition:background .15s}
+.quick button:hover{background:var(--bg-700)}
+
+/* ---------- Reportes ---------- */
+.rep-grid3{display:grid;grid-template-columns:minmax(0,1fr);gap:1rem}
+.rep-grid2{display:grid;grid-template-columns:minmax(0,1fr);gap:1rem}
+@media(min-width:640px){.rep-grid3{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(min-width:768px){.rep-grid2{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.inner{background:rgba(15,23,42,.6);border:1px solid rgba(51,65,85,.7);border-radius:.75rem;padding:1rem}
+.inner .lbl{font-size:.75rem;color:var(--t400)}
+.inner .val{font-size:1.1rem;font-weight:700;margin-top:.25rem}
+.bar{width:100%;background:var(--bg-800);border-radius:9999px;height:.75rem;overflow:hidden;border:1px solid var(--bg-700)}
+.bar-fill{height:100%;background:var(--brand-500);transition:width .3s}
+.bar-fill.warn{background:var(--amber)}.bar-fill.danger{background:var(--rose-500)}.bar-fill.sky{background:var(--sky)}
+.bar-sm{height:.4rem}
+.kv{display:flex;justify-content:space-between;align-items:center;gap:.5rem;background:rgba(15,23,42,.4);padding:.5rem;border-radius:.5rem;font-size:.75rem}
+.kv .k{color:var(--t300);min-width:0;word-break:break-word}.kv .v{font-weight:700;white-space:nowrap}
+.list{display:flex;flex-direction:column;gap:.625rem}
+.list-scroll{overflow-y:auto;padding-right:.25rem}
+.sel{background:var(--bg-900);border:1px solid var(--bg-700);font-size:.75rem;border-radius:.75rem;padding:.5rem .75rem;color:var(--t200)}
+.sel:focus{outline:none;border-color:var(--brand-500)}
+.sep{border-bottom:1px solid var(--bg-700);padding-bottom:1rem;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:.75rem}
+.sep h2{font-size:1rem;font-weight:700}.sep p{font-size:.75rem;color:var(--t400)}
+
+/* ---------- Sidebar ---------- */
+.proj-card,.tx-row{background:rgba(15,23,42,.5);border:1px solid rgba(51,65,85,.5);border-radius:.75rem;padding:.625rem .75rem;font-size:.75rem;display:flex;justify-content:space-between;align-items:center;gap:.5rem}
+.tx-row.voided{opacity:.5}
+.tx-main{min-width:0}
+.tx-desc{font-weight:500;color:var(--t200);word-break:break-word}
+.tx-row.voided .tx-desc{text-decoration:line-through;color:var(--t400)}
+.tx-meta{display:flex;align-items:center;gap:.5rem;margin-top:.125rem;font-size:.625rem;color:var(--t500)}
+.tx-amt{font-weight:700;flex-shrink:0}
+.empty{font-size:.75rem;color:var(--t500);text-align:center;padding:.75rem}
+
+/* ---------- Overlays / modal ---------- */
+.overlay{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:1rem;z-index:50;background:rgba(0,0,0,.78)}
+#lockScreen{z-index:100;background:rgba(2,6,23,.97);backdrop-filter:blur(12px)}
+.modal-card{background:var(--bg-800);border:1px solid var(--bg-700);max-width:28rem;width:100%;max-height:92vh;overflow-y:auto;padding:1.5rem;border-radius:1rem;box-shadow:0 25px 50px -12px rgba(0,0,0,.65);display:flex;flex-direction:column;gap:1rem}
+.modal-card h3{font-size:1.1rem;font-weight:700;color:#fff;text-align:center}
+.modal-card .msg-text{font-size:.875rem;color:var(--t300);white-space:pre-line;text-align:center}
+.field{display:block}.field-label{display:block;font-size:.75rem;color:var(--t400);margin-bottom:.25rem}
+.field input{width:100%;background:var(--bg-900);border:1px solid var(--bg-600);border-radius:.75rem;padding:.625rem 1rem;color:#fff}
+.field input:focus{outline:none;border-color:var(--brand-500)}
+.fields{display:flex;flex-direction:column;gap:.625rem}
+.modal-body{display:flex;flex-direction:column;gap:.5rem;max-height:16rem;overflow-y:auto}
+.modal-err{font-size:.75rem;color:var(--rose);text-align:center}
+.modal-actions{display:flex;gap:.5rem}
+.modal-actions button{flex:1;padding:.625rem;border-radius:.75rem;font-size:.875rem;font-weight:500}
+.mbtn-cancel{background:var(--bg-700);color:var(--t200)}.mbtn-cancel:hover{background:var(--bg-600)}
+.mbtn-ok{background:var(--brand-600);color:#fff}.mbtn-ok:hover{background:var(--brand-500)}
+.lock-card{max-width:24rem;text-align:center}
+.lock-icon{width:3.5rem;height:3.5rem;background:rgba(34,197,94,.2);color:var(--brand-400);border:1px solid rgba(34,197,94,.4);border-radius:1rem;margin:0 auto;display:flex;align-items:center;justify-content:center;font-size:1.6rem}
+.lock-card input{width:100%;background:var(--bg-900);border:1px solid var(--bg-600);border-radius:.75rem;padding:.75rem 1rem;text-align:center;font-size:1.1rem;letter-spacing:.1em;color:#fff}
+.lock-card input:focus{outline:none;border-color:var(--brand-500)}
+.rowbtn{background:rgba(15,23,42,.6);border:1px solid var(--bg-700);border-radius:.75rem;padding:.625rem;font-size:.8rem;text-align:left;display:flex;justify-content:space-between;align-items:center;gap:.5rem;width:100%}
+.rowbtn:hover{background:var(--bg-700)}
+.rowbtn small{display:block;font-size:.625rem;color:var(--t400)}
+.mini{background:var(--brand-600);color:#fff;padding:.25rem .75rem;border-radius:.5rem;font-size:.75rem;font-weight:500;flex-shrink:0}
+.mini:hover{background:var(--brand-500)}
+.entry-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:.75rem}
+@media(min-width:640px){.entry-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.status{font-size:.8rem;padding:.625rem .75rem;border-radius:.75rem;white-space:pre-line;word-break:break-word}
+.status.ok{background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.35);color:var(--brand-400)}
+.status.err{background:rgba(244,63,94,.12);border:1px solid rgba(244,63,94,.35);color:var(--rose)}
+</style>
+</head>
+<body>
+
+<!-- Pantalla de bloqueo -->
+<div id="lockScreen" class="overlay hidden">
+  <form class="modal-card lock-card" onsubmit="handleUnlockSubmit(event)" autocomplete="on">
+    <div class="lock-icon">🔒</div>
+    <div>
+      <h3>Bóveda cifrada VaultFin</h3>
+      <p class="msg-text" style="margin-top:.25rem">Ingresa tu clave maestra para descifrar tus registros</p>
+    </div>
+    <input type="password" id="unlockPinInput" autocomplete="current-password" placeholder="Clave maestra">
+    <p id="unlockErrorText" class="modal-err hidden"></p>
+    <button type="submit" id="unlockBtn" class="mbtn-ok" style="padding:.625rem;border-radius:.75rem;font-weight:600;font-size:.875rem">Desbloquear bóveda</button>
+  </form>
+</div>
+
+<!-- Encabezado -->
+<header class="topbar">
+  <div class="topbar-in">
+    <div class="brand">
+      <div class="logo">V</div>
+      <div>
+        <div class="brand-row">
+          <h1>VaultFin <span>PRO v6.2</span></h1>
+          <span id="offlineBadge" class="badge badge-ok">Local</span>
+          <span id="cryptoBadge" class="badge">Sin cifrar</span>
+        </div>
+        <p>Datos 100% en este dispositivo • Cifrado AES-256 opcional • Respaldos restaurables</p>
+      </div>
+    </div>
+    <div class="toolbar">
+      <button id="lockVaultBtn" onclick="lockVaultManually(false)" class="btn btn-amber hidden" title="Bloquear bóveda ahora">🔒 Bloquear</button>
+      <button onclick="openSecurityModal()" class="btn btn-green" title="Clave maestra y cifrado AES-256">🔐 Seguridad</button>
+      <button onclick="openRecoveryModal()" class="btn btn-amber" title="Puntos de restauración">🕘 Respaldos</button>
+      <button id="currencyBtn" onclick="openCurrencyModal()" class="btn" title="Símbolo de moneda">Moneda: $</button>
+      <button onclick="showHelpModal()" class="btn btn-brand">ℹ️ Ayuda</button>
+      <button onclick="exportData()" class="btn">⬇ Exportar</button>
+      <label class="btn btn-file">⬆ Importar
+        <input type="file" id="importFile" onchange="importData(event)" class="hidden" accept=".json,.vaultfin">
+      </label>
+      <button onclick="clearAllData()" class="btn btn-danger">Reiniciar</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="stack">
+    <!-- Resumen -->
+    <div class="summary">
+      <div class="card">
+        <div class="row-between"><span class="lbl">Disponible principal</span><button onclick="promptInitialBalance()" class="link-btn" title="Registrar apertura de saldo">Saldo inicial</button></div>
+        <h3 id="mainBalance" class="c-brand">$0.00</h3>
+        <small id="initialBalanceSub">Apertura: $0.00</small>
+      </div>
+      <div class="card">
+        <span class="lbl">En proyectos</span>
+        <h3 id="projectsTotalBalance" class="c-sky">$0.00</h3>
+        <small>Conciliado</small>
+      </div>
+      <div class="card">
+        <span class="lbl">Ingresos reales</span>
+        <h3 id="totalIncome" class="c-emerald">$0.00</h3>
+        <small>Excluye apertura</small>
+      </div>
+      <div class="card">
+        <span class="lbl">Egresos reales</span>
+        <h3 id="totalExpense" class="c-rose">$0.00</h3>
+        <small>Incluye gastos de proyectos</small>
+      </div>
+    </div>
+
+    <!-- Pestañas -->
+    <div class="tabs">
+      <button id="tabBtnEntry" class="tab active" onclick="switchMainTab('entry')">➕ Movimientos</button>
+      <button id="tabBtnReports" class="tab" onclick="switchMainTab('reports')">📊 Reportes y presupuesto</button>
+    </div>
+
+    <!-- Movimientos -->
+    <div id="viewEntry" class="stack">
+      <p id="formStatus" class="status hidden" role="status" aria-live="polite"></p>
+
+      <form id="entryForm" class="card stack" style="gap:.875rem" onsubmit="handleEntrySubmit(event)" autocomplete="off">
+        <h2 class="card-title">Registrar movimiento</h2>
+        <div class="entry-grid">
+          <label class="field"><span class="field-label">Tipo</span>
+            <select id="entryKind" class="sel" style="width:100%" onchange="updateEntryForm()">
+              <option value="income">➕ Ingreso</option>
+              <option value="expense">➖ Gasto</option>
+              <option value="project_expense">📁 Gasto de un proyecto</option>
+              <option value="allocation">💸 Asignar fondos a un proyecto</option>
+            </select>
+          </label>
+          <label class="field hidden" id="entryProjectWrap"><span class="field-label">Proyecto</span>
+            <select id="entryProject" class="sel" style="width:100%"></select>
+          </label>
+          <label class="field"><span class="field-label">Monto</span>
+            <input type="text" id="entryAmount" inputmode="decimal" maxlength="40" placeholder="Ej: 1500, 1,250.50 o mil quinientos">
+          </label>
+          <label class="field"><span class="field-label">Concepto (opcional)</span>
+            <input type="text" id="entryConcept" maxlength="60" placeholder="Ej: salario, comida, transporte">
+          </label>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:.5rem">
+          <button type="submit" class="btn btn-primary" style="padding:.625rem 1.25rem;border-radius:.75rem;font-size:.875rem">Registrar</button>
+          <button type="button" class="btn btn-amber" style="padding:.625rem 1rem;border-radius:.75rem;font-size:.875rem" onclick="voidLastTransaction()">↩️ Anular último</button>
+        </div>
+      </form>
+
+      <form id="projectForm" class="card stack" style="gap:.875rem" onsubmit="handleProjectSubmit(event)" autocomplete="off">
+        <h2 class="card-title">Nuevo proyecto</h2>
+        <div class="entry-grid">
+          <label class="field"><span class="field-label">Nombre</span>
+            <input type="text" id="projName" maxlength="60" placeholder="Ej: Viaje">
+          </label>
+          <label class="field"><span class="field-label">Monto inicial (sale del saldo principal)</span>
+            <input type="text" id="projAmount" inputmode="decimal" maxlength="40" placeholder="Ej: 300">
+          </label>
+        </div>
+        <div><button type="submit" class="btn btn-primary" style="padding:.625rem 1.25rem;border-radius:.75rem;font-size:.875rem">📁 Crear proyecto</button></div>
+      </form>
+    </div>
+
+    <!-- Reportes -->
+    <div id="viewReports" class="stack hidden">
+      <div class="card stack" style="padding:1.25rem">
+        <div class="sep">
+          <div><h2>Análisis financiero por período</h2><p>Los movimientos revertidos no se cuentan</p></div>
+          <div style="display:flex;align-items:center;gap:.5rem;flex-wrap:wrap">
+            <select id="reportPeriodSelect" onchange="renderReports()" class="sel">
+              <option value="month">Este mes</option>
+              <option value="week">Últimos 7 días</option>
+              <option value="year">Este año</option>
+              <option value="all">Todo el historial</option>
+            </select>
+            <button onclick="configureMonthlyBudget()" class="btn btn-primary" style="border-radius:.75rem">🎯 Fijar límite</button>
+          </div>
+        </div>
+        <div class="rep-grid3">
+          <div class="inner"><span class="lbl">Ingresos del período</span><p id="repIncome" class="val c-emerald">$0.00</p></div>
+          <div class="inner"><span class="lbl">Egresos del período</span><p id="repExpense" class="val c-rose">$0.00</p></div>
+          <div class="inner"><span class="lbl">Flujo neto</span><p id="repNet" class="val c-brand">$0.00</p></div>
+        </div>
+        <div class="inner stack" style="gap:.5rem">
+          <div class="row-between" style="font-size:.75rem"><span style="font-weight:600;color:var(--t200)">Límite de gasto del mes actual</span><span id="budgetLabel" class="c-muted">Sin límite definido</span></div>
+          <div class="bar"><div id="budgetProgressBar" class="bar-fill" style="width:0%"></div></div>
+          <p id="budgetAlertText" class="c-muted" style="font-size:.6875rem"></p>
+        </div>
+        <div class="rep-grid2">
+          <div class="inner stack" style="gap:.75rem">
+            <h3 class="eyebrow">Distribución de capital</h3>
+            <div id="capitalDistributionContainer" class="list" style="gap:.5rem"></div>
+          </div>
+          <div class="inner stack" style="gap:.75rem">
+            <h3 class="eyebrow">Ejecución de proyectos</h3>
+            <div id="projectStatsContainer" class="list list-scroll" style="max-height:260px"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="stack-lg">
+    <div class="card">
+      <div class="card-head"><h2 class="card-title">Pequeños proyectos</h2><span id="projectCount" class="pill">0 activos</span></div>
+      <div id="projectsList" class="list list-scroll" style="max-height:260px"></div>
+    </div>
+    <div class="card" style="flex:1;display:flex;flex-direction:column">
+      <div class="card-head"><h2 class="card-title">Libro mayor auditable</h2><span class="c-muted" style="font-size:.75rem">Con contra-asientos</span></div>
+      <div id="transactionsList" class="list list-scroll" style="max-height:340px;flex:1"></div>
+      <p id="ledgerNote" class="c-dim hidden" style="font-size:.6875rem;margin-top:.5rem"></p>
+    </div>
+  </section>
+</main>
+
+<!-- Modal genérico -->
+<div id="customModal" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <form id="modalForm" class="modal-card" autocomplete="off">
+    <h3 id="modalTitle">Aviso</h3>
+    <p id="modalMessage" class="msg-text"></p>
+    <div id="modalFields" class="fields"></div>
+    <div id="modalCustomBody" class="modal-body hidden"></div>
+    <p id="modalError" class="modal-err hidden"></p>
+    <div class="modal-actions">
+      <button type="button" id="modalCancelBtn" class="mbtn-cancel hidden" onclick="cancelModal()">Cancelar</button>
+      <button type="submit" id="modalConfirmBtn" class="mbtn-ok">Entendido</button>
+    </div>
+  </form>
+</div>
+
+<script>
+"use strict";
+
+// =========================================================================
+// 0. LÓGICA PURA (sin DOM): utilidades, conciliación, parser y migración
+// =========================================================================
+// <PURE>
+function cloneState(o) { return JSON.parse(JSON.stringify(o)); }
+function roundMoney(n) { return Math.round((Number(n) + Number.EPSILON) * 100) / 100; }
+function stripAccents(s) { return String(s).normalize('NFD').replace(/[\u0300-\u036f]/g, ''); }
+function sanitizeText(str, maxLen = 120) {
+    if (typeof str !== 'string') return '';
+    return str.replace(/[\u0000-\u001F\u007F<>]/g, '').trim().slice(0, maxLen);
+}
+function generateUUID() {
+    if (typeof crypto !== 'undefined' && crypto.randomUUID) return crypto.randomUUID();
+    return 'id-' + Date.now() + '-' + Math.random().toString(36).slice(2, 11);
+}
+function escapeRegex(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+
+const CURRENCIES = ['$', 'C$', 'US$', '€'];
+const MAX_AMOUNT = 1e12;
+
+function emptyState() {
+    return { version: 6.2, initialBalance: 0, balance: 0, totalIncome: 0, totalExpense: 0,
+             monthlyBudget: 0, currency: '$', transactions: [], projects: [] };
+}
+
+let reconcileError = '';
+
+// Recalcula TODO desde el libro mayor. Devuelve false si algún paso deja saldos negativos.
+function reconcileFullLedger(target) {
+    reconcileError = '';
+    let initialBal = 0, realIncome = 0, realExpense = 0, principal = 0;
+    const ps = {};
+    (target.projects || []).forEach(p => { ps[p.id] = { allocated: 0, spent: 0, name: p.name }; });
+
+    const indexed = (target.transactions || []).map((tx, idx) => ({ tx, idx }));
+    indexed.sort((a, b) => {
+        const ta = Number(a.tx.timestamp) || 0, tb = Number(b.tx.timestamp) || 0;
+        return ta !== tb ? ta - tb : b.idx - a.idx; // empate: el de índice mayor (más viejo) va primero
+    });
+    const byId = {};
+    indexed.forEach(({ tx }) => { byId[tx.id] = tx; });
+
+    for (const { tx } of indexed) {
+        const amt = roundMoney(Number(tx.amount) || 0);
+        let pid = tx.projectId || null;
+        const P = () => (pid && ps[pid]) ? ps[pid] : null;
+
+        switch (tx.type) {
+            case 'initial_balance': initialBal = roundMoney(initialBal + amt); principal = roundMoney(principal + amt); break;
+            case 'income': realIncome = roundMoney(realIncome + amt); principal = roundMoney(principal + amt); break;
+            case 'expense': realExpense = roundMoney(realExpense + amt); principal = roundMoney(principal - amt); break;
+            case 'project_allocation':
+                principal = roundMoney(principal - amt);
+                if (P()) P().allocated = roundMoney(P().allocated + amt);
+                break;
+            case 'project_expense':
+                realExpense = roundMoney(realExpense + amt);
+                if (P()) P().spent = roundMoney(P().spent + amt);
+                break;
+            case 'reversal': {
+                const orig = tx.reversesId ? byId[tx.reversesId] : null;
+                const revType = tx.reversesType || (orig ? orig.type : null);
+                if (!pid && orig && orig.projectId) pid = orig.projectId;
+                if (revType === 'initial_balance') { initialBal = roundMoney(initialBal - amt); principal = roundMoney(principal - amt); }
+                else if (revType === 'income') { realIncome = roundMoney(realIncome - amt); principal = roundMoney(principal - amt); }
+                else if (revType === 'expense') { realExpense = roundMoney(realExpense - amt); principal = roundMoney(principal + amt); }
+                else if (revType === 'project_allocation') { principal = roundMoney(principal + amt); if (P()) P().allocated = roundMoney(P().allocated - amt); }
+                else if (revType === 'project_expense') { realExpense = roundMoney(realExpense - amt); if (P()) P().spent = roundMoney(P().spent - amt); }
+                break;
+            }
+        }
+
+        if (principal < -0.005) {
+            reconcileError = 'El saldo principal quedaría negativo en: «' + tx.desc + '».';
+            return false;
+        }
+        if (P()) {
+            const b = roundMoney(P().allocated - P().spent);
+            if (b < -0.005) {
+                reconcileError = 'El proyecto «' + P().name + '» quedaría con saldo negativo en: «' + tx.desc + '».';
+                return false;
+            }
+        }
+    }
+
+    target.projects = (target.projects || []).map(p => {
+        const st = ps[p.id] || { allocated: 0, spent: 0 };
+        return { id: p.id, name: sanitizeText(p.name, 60), budget: st.allocated, balance: roundMoney(st.allocated - st.spent) };
+    });
+    target.initialBalance = initialBal;
+    target.totalIncome = realIncome;
+    target.totalExpense = realExpense;
+    target.balance = principal;
+    return true;
+}
+
+// ---------- Parser de montos (números y palabras en español) ----------
+const UNITS = { uno:1, dos:2, tres:3, cuatro:4, cinco:5, seis:6, siete:7, ocho:8, nueve:9, diez:10, once:11, doce:12, trece:13, catorce:14, quince:15,
+    dieciseis:16, diecisiete:17, dieciocho:18, diecinueve:19, veinte:20, veintiuno:21, veintiun:21, veintidos:22, veintitres:23, veinticuatro:24,
+    veinticinco:25, veintiseis:26, veintisiete:27, veintiocho:28, veintinueve:29, treinta:30, cuarenta:40, cincuenta:50, sesenta:60,
+    setenta:70, ochenta:80, noventa:90 };
+const HUNDREDS = { cien:100, ciento:100, doscientos:200, trescientos:300, cuatrocientos:400, quinientos:500, seiscientos:600,
+    setecientos:700, ochocientos:800, novecientos:900 };
+const MULT_WORDS = new Set(['mil', 'millon', 'millones']);
+
+function parseNumericToken(tok) {
+    if (!/^\d[\d.,]*$/.test(tok)) return NaN;
+    let raw = tok.replace(/[.,]+$/, '');
+    if (!raw) return NaN;
+    if (raw.includes(',') && raw.includes('.')) {
+        if (raw.lastIndexOf(',') > raw.lastIndexOf('.')) raw = raw.replace(/\./g, '').replace(',', '.');
+        else raw = raw.replace(/,/g, '');
+    } else if (raw.includes(',')) {
+        const parts = raw.split(',');
+        if (parts.length > 2) raw = raw.replace(/,/g, '');
+        else if (parts[1].length === 3 && parts[0] !== '0') raw = raw.replace(',', '');
+        else raw = raw.replace(',', '.');
+    } else if (raw.includes('.')) {
+        const parts = raw.split('.');
+        if (parts.length > 2) raw = raw.replace(/\./g, '');
+        else if (parts[1].length === 3 && parts[0] !== '0') raw = raw.replace('.', '');
+    }
+    const v = parseFloat(raw);
+    return Number.isFinite(v) ? v : NaN;
+}
+
+function parseSpanishAmount(text) {
+    if (!text) return NaN;
+    const lower = stripAccents(String(text).toLowerCase());
+    const isNeg = /(?:^|\s)-\s*\d/.test(lower) || /\bmenos\s+\S/.test(lower);
+    const cleaned = lower
+        .replace(/(?:c|us)?\$|€/g, ' ')
+        .replace(/\b(?:dolares|dolar|cordobas|cordoba|pesos|peso|euros|euro|usd)\b/g, ' ')
+        .replace(/\bmenos\b/g, ' ');
+    const tokens = cleaned.split(/\s+/).filter(Boolean).map(t => t.replace(/^[(¿¡"']+|[;:!?)"']+$/g, ''));
+
+    let total = 0, current = 0, found = false;
+
+    // Modo 1: si hay cifras, se usa el primer número con cifras (evita confundir "un" en nombres)
+    const firstNum = tokens.findIndex(t => !Number.isNaN(parseNumericToken(t)));
+    if (firstNum >= 0) {
+        let lastWasNum = false;
+        for (let i = firstNum; i < tokens.length; i++) {
+            const v = parseNumericToken(tokens[i]);
+            const w = tokens[i].replace(/[.,]+$/, '');
+            if (!Number.isNaN(v)) {
+                if (lastWasNum) break;
+                current += v; found = true; lastWasNum = true;
+            } else if (w === 'mil') { total += (current || 1) * 1000; current = 0; lastWasNum = false; }
+            else if (w === 'millon' || w === 'millones') { total += (current || 1) * 1000000; current = 0; lastWasNum = false; }
+            else break;
+        }
+    } else {
+        // Modo 2: palabras
+        for (let i = 0; i < tokens.length; i++) {
+            const w = tokens[i].replace(/[.,]+$/, '');
+            const next = (tokens[i + 1] || '').replace(/[.,]+$/, '');
+            if (w === 'y' && found) continue;
+            if ((w === 'un' || w === 'una') && (found || MULT_WORDS.has(next))) { current += 1; found = true; continue; }
+            if (UNITS[w] !== undefined) { current += UNITS[w]; found = true; }
+            else if (HUNDREDS[w] !== undefined) { current += HUNDREDS[w]; found = true; }
+            else if (w === 'mil') { if (!found) { found = true; } total += (current || 1) * 1000; current = 0; }
+            else if (w === 'millon' || w === 'millones') { found = true; total += (current || 1) * 1000000; current = 0; }
+            else if (found) break;
+        }
+    }
+    const res = total + current;
+    if (found && Number.isFinite(res) && res > 0) {
+        const r = roundMoney(res);
+        return isNeg ? -r : r;
+    }
+    return NaN;
+}
+
+// ---------- Migración y validación estricta (devuelve un estado YA conciliado) ----------
+function migrateAndValidateState(raw) {
+    if (!raw || typeof raw !== 'object') return null;
+    if (!Array.isArray(raw.transactions) || !Array.isArray(raw.projects)) return null;
+    if (raw.transactions.length > 50000 || raw.projects.length > 1000) return null;
+    const legacy = !(Number(raw.version) >= 6); // solo datos de versiones anteriores a v6 se reclasifican
+
+    const projects = [];
+    const projNameToId = {};
+    const validIds = new Set();
+    for (const p of raw.projects) {
+        if (!p || typeof p.name !== 'string' || !p.name.trim()) return null;
+        const pid = p.id ? String(p.id) : generateUUID();
+        if (validIds.has(pid)) return null;
+        const cleanName = sanitizeText(p.name, 60);
+        if (!cleanName) return null;
+        projects.push({ id: pid, name: cleanName, balance: 0, budget: 0 });
+        projNameToId[stripAccents(cleanName.toLowerCase())] = pid;
+        validIds.add(pid);
+    }
+
+    const allowed = new Set(['initial_balance', 'income', 'expense', 'project_allocation', 'project_expense', 'reversal', 'project_creation']);
+    const txIds = new Set();
+    const normalizedTx = [];
+    const baseTs = Date.now();
+
+    for (let idx = 0; idx < raw.transactions.length; idx++) {
+        const t = raw.transactions[idx];
+        if (!t || typeof t !== 'object') return null;
+        const amt = roundMoney(Number(t.amount));
+        if (!Number.isFinite(amt) || amt <= 0 || amt > MAX_AMOUNT) return null;
+        if (!allowed.has(t.type)) return null;
+
+        const tid = t.id ? String(t.id) : generateUUID();
+        if (txIds.has(tid)) return null;
+        txIds.add(tid);
+
+        let txType = t.type === 'project_creation' ? 'project_allocation' : t.type;
+        const txDesc = sanitizeText(typeof t.desc === 'string' ? t.desc : 'Movimiento', 120) || 'Movimiento';
+        let projId = t.projectId ? String(t.projectId) : null;
+        if (projId && !validIds.has(projId)) return null;
+
+        if (legacy && txType === 'expense' && !projId) {
+            const d = stripAccents(txDesc.toLowerCase());
+            for (const [pname, pid] of Object.entries(projNameToId)) {
+                if (pname.length >= 3 && new RegExp('(^|[^a-z0-9])' + escapeRegex(pname) + '([^a-z0-9]|$)').test(d)) {
+                    txType = 'project_expense'; projId = pid; break;
+                }
+            }
+        }
+        if ((txType === 'project_allocation' || txType === 'project_expense') && !projId) return null;
+        if (txType === 'reversal' && !t.reversesId) return null;
+
+        let ts = Number(t.timestamp);
+        if (!Number.isFinite(ts) || ts <= 0) ts = baseTs - idx; // el índice 0 es el más reciente
+        normalizedTx.push({
+            id: tid, type: txType, amount: amt, desc: txDesc, projectId: projId,
+            reversesId: t.reversesId ? String(t.reversesId) : null,
+            reversesType: t.reversesType || null,
+            voided: Boolean(t.voided),
+            timestamp: ts,
+            date: typeof t.date === 'string' ? t.date.slice(0, 40) : new Date(ts).toLocaleString()
+        });
+    }
+
+    for (const t of normalizedTx) {
+        if (t.type === 'reversal' && !txIds.has(t.reversesId)) return null;
+    }
+
+    const candidate = {
+        version: 6.2, initialBalance: 0, balance: 0, totalIncome: 0, totalExpense: 0,
+        monthlyBudget: Math.max(0, roundMoney(Number(raw.monthlyBudget) || 0)),
+        currency: CURRENCIES.includes(raw.currency) ? raw.currency : '$',
+        transactions: normalizedTx, projects
+    };
+    if (!reconcileFullLedger(candidate)) return null;
+    return candidate;
+}
+// </PURE>
+
+// =========================================================================
+// 1. CRIPTOGRAFÍA Y BLOQUEO
+// =========================================================================
+const $ = id => document.getElementById(id);
+function el(tag, cls, text) {
+    const e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text !== undefined && text !== null) e.textContent = text;
+    return e;
+}
+
+const DB_NAME = 'VaultFinProDB_v6_1';   // se conserva para no perder datos de v6.1
+const DB_VERSION = 1;
+const LEGACY_DBS = ['VaultFinProDB_v5', 'VaultFinProDB_v4', 'VaultFinProDB_v3', 'VaultFinSecureDB'];
+const DEFAULT_ITER = 600000;
+const MIN_ITER = 10000, MAX_ITER = 2000000;
+const MIN_PASS = 10;
+const INACTIVITY_LIMIT_MS = 5 * 60 * 1000;
+const CRYPTO_OK = typeof crypto !== 'undefined' && !!crypto.subtle;
+
+let activeCryptoKey = null;
+let activeSaltB64 = null;
+let activeIterations = DEFAULT_ITER;
+let isEncryptionEnabled = false;
+let isVaultLocked = false;
+let inactivityTimer = null;
+let db = null;
+let state = emptyState();
+let lastError = '';
+
+function resetInactivityTimer() {
+    if (inactivityTimer) clearTimeout(inactivityTimer);
+    inactivityTimer = null;
+    if (!isVaultLocked && isEncryptionEnabled && activeCryptoKey) {
+        inactivityTimer = setTimeout(() => lockVaultManually(true), INACTIVITY_LIMIT_MS);
+    }
+}
+['click', 'mousemove', 'keydown', 'touchstart'].forEach(evt => window.addEventListener(evt, resetInactivityTimer, { passive: true }));
+
+function lockVaultManually(auto) {
+    if (!isEncryptionEnabled || !activeCryptoKey) return;
+    activeCryptoKey = null;
+    isVaultLocked = true;
+    if (inactivityTimer) clearTimeout(inactivityTimer);
+    state = emptyState();                 // se borra la información de la memoria
+    closeModal();
+    clearEntryForm();
+    updateUI();
+    updateCryptoBadge();
+    const err = $('unlockErrorText');
+    if (auto === true) { err.textContent = 'Bloqueada automáticamente por inactividad.'; err.classList.remove('hidden'); }
+    else err.classList.add('hidden');
+    $('lockScreen').classList.remove('hidden');
+    setTimeout(() => $('unlockPinInput').focus(), 100);
+}
+
+function bufToBase64(buffer) {
+    const bytes = new Uint8Array(buffer);
+    let binary = '';
+    for (let i = 0; i < bytes.byteLength; i++) binary += String.fromCharCode(bytes[i]);
+    return btoa(binary);
+}
+function base64ToBuf(base64) {
+    const binary = atob(base64);
+    const bytes = new Uint8Array(binary.length);
+    for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+    return bytes.buffer;
+}
+async function deriveKeyFromPin(pin, saltBuffer, iterations = DEFAULT_ITER) {
+    const enc = new TextEncoder();
+    const keyMaterial = await crypto.subtle.importKey('raw', enc.encode(pin), { name: 'PBKDF2' }, false, ['deriveKey']);
+    return crypto.subtle.deriveKey({ name: 'PBKDF2', salt: saltBuffer, iterations, hash: 'SHA-256' }, keyMaterial, { name: 'AES-GCM', length: 256 }, false, ['encrypt', 'decrypt']);
+}
+async function encryptObject(obj, cryptoKey) {
+    const iv = crypto.getRandomValues(new Uint8Array(12));
+    const cipherBuffer = await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, cryptoKey, new TextEncoder().encode(JSON.stringify(obj)));
+    return { encrypted: true, iv: bufToBase64(iv), ciphertext: bufToBase64(cipherBuffer) };
+}
+async function decryptObject(payload, cryptoKey) {
+    const iv = new Uint8Array(base64ToBuf(payload.iv));
+    const plain = await crypto.subtle.decrypt({ name: 'AES-GCM', iv }, cryptoKey, base64ToBuf(payload.ciphertext));
+    return JSON.parse(new TextDecoder().decode(plain));
+}
+
+function updateCryptoBadge() {
+    const badge = $('cryptoBadge'), lockBtn = $('lockVaultBtn');
+    if (isEncryptionEnabled) {
+        badge.textContent = '🔒 AES-256 activo';
+        badge.className = 'badge badge-brand';
+        lockBtn.classList.toggle('hidden', isVaultLocked);
+    } else {
+        badge.textContent = 'Sin cifrar';
+        badge.className = 'badge';
+        lockBtn.classList.add('hidden');
+    }
+}
+
+// Verifica una clave contra el libro guardado; devuelve la CryptoKey o null
+async function verifyPin(pin) {
+    try {
+        const key = await deriveKeyFromPin(pin, new Uint8Array(base64ToBuf(activeSaltB64)), activeIterations);
+        const rec = await dbGet('ledger', 'active_ledger');
+        if (!rec || !rec.encrypted || !rec.payload) return null;
+        await decryptObject(rec.payload, key);
+        return key;
+    } catch (e) { return null; }
+}
+
+// =========================================================================
+// 2. INDEXEDDB, COLA DE OPERACIONES Y COMMIT ATÓMICO
+// =========================================================================
+let opQueue = Promise.resolve();
+// Serializa las operaciones para que dos comandos seguidos no se pisen
+function enqueue(fn) {
+    opQueue = opQueue.then(fn).catch(e => {
+        console.error(e);
+        try { showModal('Error inesperado', String(e && e.message ? e.message : e)); } catch (_) {}
+    });
+    return opQueue;
+}
+
+function initDatabase() {
+    return new Promise((resolve, reject) => {
+        if (!window.indexedDB) { reject(new Error('IndexedDB no soportado')); return; }
+        const req = indexedDB.open(DB_NAME, DB_VERSION);
+        req.onupgradeneeded = (e) => {
+            const d = e.target.result;
+            if (!d.objectStoreNames.contains('ledger')) d.createObjectStore('ledger', { keyPath: 'id' });
+            if (!d.objectStoreNames.contains('snapshots')) d.createObjectStore('snapshots', { keyPath: 'id' });
+            if (!d.objectStoreNames.contains('security')) d.createObjectStore('security', { keyPath: 'id' });
+        };
+        req.onsuccess = (e) => { db = e.target.result; resolve(db); };
+        req.onerror = (e) => reject(e.target.error || new Error('Error al abrir IndexedDB'));
+        req.onblocked = () => reject(new Error('La base de datos está bloqueada por otra pestaña'));
+    });
+}
+
+function dbGet(store, key) {
+    return new Promise(resolve => {
+        try {
+            const r = db.transaction([store], 'readonly').objectStore(store).get(key);
+            r.onsuccess = () => resolve(r.result || null);
+            r.onerror = () => resolve(null);
+        } catch (e) { resolve(null); }
+    });
+}
+
+function nextTimestamp() {
+    let max = 0;
+    for (const t of state.transactions) if ((t.timestamp || 0) > max) max = t.timestamp;
+    return Math.max(Date.now(), max + 1);
+}
+
+function newTx(type, amount, desc, projectId = null, extra = {}) {
+    const ts = nextTimestamp();
+    return Object.assign({
+        id: generateUUID(), type, amount: roundMoney(amount), desc: sanitizeText(desc, 120),
+        projectId, reversesId: null, reversesType: null, voided: false,
+        timestamp: ts, date: new Date(ts).toLocaleString()
+    }, extra);
+}
+
+async function commitStateTransaction(newState, priorSnapshot, reason = 'Actualización contable') {
+    lastError = '';
+    if (!db) { lastError = 'La base de datos no está disponible.'; return false; }
+    if (isVaultLocked) { lastError = 'La bóveda está bloqueada.'; return false; }
+    if (isEncryptionEnabled && !activeCryptoKey) { lastError = 'La bóveda está bloqueada.'; return false; }
+
+    const reconciled = cloneState(newState);
+    if (!reconcileFullLedger(reconciled)) { lastError = reconcileError || 'El movimiento dejaría un saldo negativo.'; return false; }
+
+    try {
+        const key = activeCryptoKey;
+        const encryptedFlag = Boolean(isEncryptionEnabled && key);
+        let ledgerPayload = reconciled;
+        let snapPayload = priorSnapshot ? cloneState(priorSnapshot) : null;
+        if (encryptedFlag) {
+            ledgerPayload = await encryptObject(reconciled, key);
+            if (snapPayload) snapPayload = await encryptObject(snapPayload, key);
+        }
+        return await new Promise((resolve) => {
+            const tx = db.transaction(['ledger', 'snapshots'], 'readwrite');
+            tx.objectStore('ledger').put({ id: 'active_ledger', encrypted: encryptedFlag, payload: ledgerPayload, updatedAt: Date.now() });
+            if (snapPayload) {
+                const snapStore = tx.objectStore('snapshots');
+                snapStore.put({ id: generateUUID(), timestamp: Date.now(), reason: sanitizeText('Antes de: ' + reason, 100), encrypted: encryptedFlag, payload: snapPayload });
+                snapStore.getAll().onsuccess = (e) => {
+                    const list = e.target.result || [];
+                    if (list.length > 20) {
+                        list.sort((a, b) => a.timestamp - b.timestamp);
+                        for (let i = 0; i < list.length - 20; i++) snapStore.delete(list[i].id);
+                    }
+                };
+            }
+            tx.oncomplete = () => { if (!isVaultLocked) state = reconciled; resolve(true); };
+            tx.onerror = () => { lastError = 'Error al escribir en IndexedDB.'; resolve(false); };
+            tx.onabort = () => { lastError = 'No se pudo guardar (¿almacenamiento lleno o bloqueado?).'; resolve(false); };
+        });
+    } catch (err) {
+        lastError = 'Error criptográfico al guardar.';
+        return false;
+    }
+}
+
+async function getSnapshotsList() {
+    if (!db) return [];
+    return new Promise((resolve) => {
+        try {
+            const req = db.transaction(['snapshots'], 'readonly').objectStore('snapshots').getAll();
+            req.onsuccess = () => resolve((req.result || []).sort((a, b) => b.timestamp - a.timestamp));
+            req.onerror = () => resolve([]);
+        } catch (e) { resolve([]); }
+    });
+}
+
+// Activa / cambia / desactiva el cifrado re-cifrando libro y respaldos en UNA transacción
+async function rotateSecurityConfigurationAtomic(enable, newKey, newSaltB64, newIterations) {
+    if (!db || isVaultLocked) return { ok: false, reason: 'La bóveda está bloqueada.' };
+    try {
+        const rawSnapshots = await getSnapshotsList();
+        const decrypted = [];
+        for (const snap of rawSnapshots) {
+            let plain;
+            if (snap.encrypted) {
+                if (!activeCryptoKey) return { ok: false, reason: 'Hay respaldos cifrados y no hay clave activa.' };
+                plain = await decryptObject(snap.payload, activeCryptoKey);
+            } else plain = snap.payload;
+            decrypted.push({ id: snap.id, timestamp: snap.timestamp, reason: snap.reason, plain });
+        }
+        const currentPlain = cloneState(state);
+        let ledgerPayload = currentPlain;
+        const snaps = [];
+        if (enable && newKey) {
+            ledgerPayload = await encryptObject(currentPlain, newKey);
+            for (const it of decrypted) snaps.push({ id: it.id, timestamp: it.timestamp, reason: it.reason, encrypted: true, payload: await encryptObject(it.plain, newKey) });
+        } else {
+            for (const it of decrypted) snaps.push({ id: it.id, timestamp: it.timestamp, reason: it.reason, encrypted: false, payload: it.plain });
+        }
+        const committed = await new Promise((resolve) => {
+            const tx = db.transaction(['ledger', 'snapshots', 'security'], 'readwrite');
+            tx.objectStore('security').put({ id: 'security_config', enabled: Boolean(enable), salt: enable ? newSaltB64 : null, iterations: enable ? newIterations : null, updatedAt: Date.now() });
+            tx.objectStore('ledger').put({ id: 'active_ledger', encrypted: Boolean(enable), payload: ledgerPayload, updatedAt: Date.now() });
+            const ss = tx.objectStore('snapshots');
+            ss.clear();
+            snaps.forEach(s => ss.put(s));
+            tx.oncomplete = () => {
+                isEncryptionEnabled = Boolean(enable);
+                activeCryptoKey = enable ? newKey : null;
+                activeSaltB64 = enable ? newSaltB64 : null;
+                activeIterations = enable ? newIterations : DEFAULT_ITER;
+                updateCryptoBadge();
+                resetInactivityTimer();
+                resolve(true);
+            };
+            tx.onerror = () => resolve(false);
+            tx.onabort = () => resolve(false);
+        });
+        return committed ? { ok: true } : { ok: false, reason: 'Error al escribir en IndexedDB.' };
+    } catch (err) {
+        return { ok: false, reason: 'Error criptográfico.' };
+    }
+}
+
+// =========================================================================
+// 3. ARRANQUE Y MIGRACIÓN SEGURA (solo si no hay datos v6 propios)
+// =========================================================================
+function readLegacyDatabaseRecord(dbName) {
+    return new Promise((resolve) => {
+        if (!window.indexedDB) { resolve(null); return; }
+        let req;
+        try { req = indexedDB.open(dbName); } catch (e) { resolve(null); return; }
+        // Si la base no existía, abortamos la creación para no dejar bases vacías
+        req.onupgradeneeded = () => { try { req.transaction.abort(); } catch (e) {} };
+        req.onerror = () => resolve(null);
+        req.onblocked = () => resolve(null);
+        req.onsuccess = (e) => {
+            const legacyDb = e.target.result;
+            try {
+                const names = Array.from(legacyDb.objectStoreNames);
+                const storeName = names.includes('ledger') ? 'ledger' : names[0];
+                if (!storeName) { legacyDb.close(); resolve(null); return; }
+                const getReq = legacyDb.transaction([storeName], 'readonly').objectStore(storeName).get('active_ledger');
+                getReq.onsuccess = () => { legacyDb.close(); resolve(getReq.result || null); };
+                getReq.onerror = () => { legacyDb.close(); resolve(null); };
+            } catch (err) { try { legacyDb.close(); } catch (_) {} resolve(null); }
+        };
+    });
+}
+
+async function loadInitialDatabaseState() {
+    const sec = await dbGet('security', 'security_config');
+    const cur = await dbGet('ledger', 'active_ledger');
+
+    // 1) Bóveda cifrada: pedir clave
+    if (sec && sec.enabled && sec.salt) {
+        const iter = Number(sec.iterations) || 310000;
+        activeIterations = (iter >= MIN_ITER && iter <= MAX_ITER) ? iter : 310000;
+        isEncryptionEnabled = true;
+        activeSaltB64 = sec.salt;
+        isVaultLocked = true;
+        updateCryptoBadge();
+        $('lockScreen').classList.remove('hidden');
+        setTimeout(() => $('unlockPinInput').focus(), 100);
+        return false;
+    }
+
+    // 2) Datos actuales de v6: SIEMPRE tienen prioridad sobre bases antiguas
+    if (cur) {
+        if (cur.encrypted) {
+            isVaultLocked = true;
+            showModal('Datos cifrados sin configuración', 'Se encontraron datos cifrados pero falta la configuración de seguridad. No se modificó nada. Importa un respaldo .vaultfin.');
+            return false;
+        }
+        const v = migrateAndValidateState(cur.payload);
+        if (v) { state = v; return true; }
+        isVaultLocked = true;
+        showModal('Datos ilegibles', 'Los datos guardados no pasaron la validación contable. Puedes iniciar vacío: tus puntos de restauración se conservan en «Respaldos».', {
+            confirmText: 'Iniciar vacío',
+            onConfirm: () => { isVaultLocked = false; state = emptyState();  updateUI(); }
+        });
+        return false;
+    }
+
+    // 3) No hay datos v6: intentar migrar de versiones anteriores (una sola vez)
+    for (const dbName of LEGACY_DBS) {
+        const rec = await readLegacyDatabaseRecord(dbName);
+        if (!rec || !rec.payload) continue;
+        if (rec.encrypted) { promptForLegacyEncryptedMigration(rec, dbName); return false; }
+        const validated = migrateAndValidateState(rec.payload);
+        if (validated) {
+            if (await commitStateTransaction(validated, null, 'Migración desde ' + dbName)) {
+                setTimeout(() => showModal('Migración completada', 'Se importaron tus datos desde ' + dbName + '. Los datos antiguos no se tocaron.'), 300);
+                return true;
+            }
+        }
+    }
+    return true;
+}
+
+function promptForLegacyEncryptedMigration(rec, sourceName) {
+    isVaultLocked = true; // bloquea escrituras mientras no se resuelva
+    showModal('Migrar bóveda cifrada (' + sourceName + ')',
+        'Se detectó una bóveda cifrada de una versión anterior. Ingresa su clave maestra: se migrará a v6.2 y seguirá cifrada con esa misma clave.', {
+        fields: [{ name: 'pin', type: 'password', label: 'Clave maestra anterior', autocomplete: 'current-password' }],
+        confirmText: 'Descifrar y migrar',
+        onCancel: () => {
+            showModal('Migración omitida', 'No se migró nada y no se escribió ningún dato. Recarga la página para volver a intentarlo.');
+        },
+        onConfirm: (vals) => enqueue(async () => {
+            const pin = vals[0];
+            try {
+                const saltBuf = rec.salt ? new Uint8Array(base64ToBuf(rec.salt)) : new TextEncoder().encode('vaultfin_salt_v4');
+                const oldKey = await deriveKeyFromPin(pin, saltBuf, Number(rec.iterations) || 310000);
+                const plain = await decryptObject(rec.payload, oldKey);
+                const validated = migrateAndValidateState(plain);
+                if (!validated) { showModal('Error', 'Los datos descifrados no cumplen la estructura contable.'); return; }
+                // Quedan cifrados con la misma clave (nueva sal, más iteraciones)
+                const salt = crypto.getRandomValues(new Uint8Array(16));
+                const key = await deriveKeyFromPin(pin, salt, DEFAULT_ITER);
+                state = validated;
+                isVaultLocked = false;
+                const res = await rotateSecurityConfigurationAtomic(true, key, bufToBase64(salt), DEFAULT_ITER);
+                if (!res.ok) { isVaultLocked = true; state = emptyState(); showModal('Error', res.reason); return; }
+                 updateUI();
+                showModal('Migración exitosa', 'Tus registros fueron migrados y siguen cifrados con la misma clave. Puedes cambiarla en «Seguridad».');
+            } catch (e) {
+                showModal('Clave incorrecta', 'No se pudo descifrar la base anterior. Recarga la página para intentarlo de nuevo.');
+            }
+        })
+    });
+}
+
+let failedUnlocks = 0, unlockBlockedUntil = 0;
+async function handleUnlockSubmit(event) {
+    event.preventDefault();
+    const errEl = $('unlockErrorText');
+    const btn = $('unlockBtn');
+    const pin = $('unlockPinInput').value;
+    if (!pin) return;
+    const now = Date.now();
+    if (now < unlockBlockedUntil) {
+        errEl.textContent = 'Demasiados intentos. Espera ' + Math.ceil((unlockBlockedUntil - now) / 1000) + ' s.';
+        errEl.classList.remove('hidden');
+        return;
+    }
+    btn.disabled = true;
+    try {
+        const key = await deriveKeyFromPin(pin, new Uint8Array(base64ToBuf(activeSaltB64)), activeIterations);
+        const rec = await dbGet('ledger', 'active_ledger');
+        if (!rec || rec.encrypted !== true || !rec.payload) throw new Error('registro');
+        let plain;
+        try { plain = await decryptObject(rec.payload, key); }
+        catch (e) {
+            failedUnlocks++;
+            if (failedUnlocks >= 5) { failedUnlocks = 0; unlockBlockedUntil = Date.now() + 30000; errEl.textContent = 'Demasiados intentos. Espera 30 segundos.'; }
+            else errEl.textContent = 'Acceso denegado. Clave incorrecta.';
+            errEl.classList.remove('hidden');
+            $('unlockPinInput').select();
+            return;
+        }
+        const validated = migrateAndValidateState(plain);
+        if (!validated) { errEl.textContent = 'La clave es correcta pero los datos no pasan la validación contable.'; errEl.classList.remove('hidden'); return; }
+        state = validated;
+        activeCryptoKey = key;
+        isVaultLocked = false;
+        failedUnlocks = 0;
+        errEl.classList.add('hidden');
+        $('unlockPinInput').value = '';
+        $('lockScreen').classList.add('hidden');
+        updateCryptoBadge();
+        resetInactivityTimer();
+        updateUI();
+    } catch (e) {
+        errEl.textContent = 'No se pudo desbloquear: ' + (e && e.message ? e.message : 'error');
+        errEl.classList.remove('hidden');
+    } finally {
+        btn.disabled = false;
+    }
+}
+
+// =========================================================================
+// 4. ACCIONES CONTABLES
+// =========================================================================
+function formatCurrency(amount) {
+    const n = Number(amount || 0);
+    const s = (state.currency || '$') + Math.abs(n).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    return n < 0 ? '-' + s : s;
+}
+
+function monthStart() { const n = new Date(); return new Date(n.getFullYear(), n.getMonth(), 1).getTime(); }
+
+function periodTotals(cutoff) {
+    const reversed = new Set(state.transactions.filter(t => t.type === 'reversal').map(t => t.reversesId));
+    let income = 0, expense = 0;
+    for (const t of state.transactions) {
+        if ((t.timestamp || 0) < cutoff || t.voided || t.type === 'reversal' || reversed.has(t.id)) continue;
+        if (t.type === 'income') income = roundMoney(income + t.amount);
+        else if (t.type === 'expense' || t.type === 'project_expense') expense = roundMoney(expense + t.amount);
+    }
+    return { income, expense };
+}
+
+function budgetNote() {
+    const b = state.monthlyBudget || 0;
+    if (b <= 0) return '';
+    const spent = periodTotals(monthStart()).expense;
+    if (spent > b) return '\n⚠️ Superaste tu límite mensual (' + formatCurrency(spent) + ' de ' + formatCurrency(b) + ').';
+    if (spent >= b * 0.9) return '\n⚠️ Llevas el ' + Math.round(spent / b * 100) + '% de tu límite mensual.';
+    return '';
+}
+
+async function voidTransactionById(txId, notify) {
+    notify = notify || (m => showModal('Aviso', m));
+    const target = state.transactions.find(t => t.id === txId);
+    if (!target || target.voided || target.type === 'reversal') { notify('Este movimiento no se puede revertir.'); return false; }
+    if (state.transactions.some(t => t.type === 'reversal' && t.reversesId === txId)) { notify('Este movimiento ya tiene una reversión.'); return false; }
+
+    const prior = cloneState(state), next = cloneState(state);
+    next.transactions.find(t => t.id === txId).voided = true;
+    next.transactions.unshift(newTx('reversal', target.amount, 'Reversión de: ' + target.desc, target.projectId || null,
+        { reversesId: target.id, reversesType: target.type }));
+    if (!(await commitStateTransaction(next, prior, 'Reversión: ' + target.desc))) { notify('No se pudo revertir: ' + lastError); return false; }
+    updateUI();
+    setStatus('↩️ Reversión registrada: ' + target.desc, 'ok');
+    return true;
+}
+
+function promptInitialBalance() {
+    showModal('Apertura de saldo inicial', 'Monto con el que inicia tu bóveda principal. Se suma al saldo y puedes revertirlo desde el libro mayor.', {
+        fields: [{ name: 'amt', type: 'text', placeholder: 'Ej: 1500 o mil quinientos' }],
+        confirmText: 'Registrar apertura',
+        validate: v => (Number.isFinite(parseSpanishAmount(v[0])) && parseSpanishAmount(v[0]) > 0 && parseSpanishAmount(v[0]) <= MAX_AMOUNT) ? '' : 'Monto inválido.',
+        onConfirm: (v) => enqueue(async () => {
+            const amt = parseSpanishAmount(v[0]);
+            const prior = cloneState(state), next = cloneState(state);
+            next.transactions.unshift(newTx('initial_balance', amt, 'Apertura de saldo inicial'));
+            if (await commitStateTransaction(next, prior, 'Saldo inicial')) { updateUI(); showModal('Registrado', 'Saldo inicial registrado: ' + formatCurrency(amt)); }
+            else showModal('Error', lastError);
+        })
+    });
+}
+
+function configureMonthlyBudget() {
+    showModal('Límite de gasto mensual', 'Define tu presupuesto máximo de egresos para el mes. Escribe 0 para quitar el límite.', {
+        fields: [{ name: 'amt', type: 'text', placeholder: 'Ej: 800' }],
+        confirmText: 'Guardar límite',
+        validate: v => {
+            if (/^\s*(0|ninguno|quitar|sin limite)\s*$/i.test(stripAccents(v[0]))) return '';
+            const a = parseSpanishAmount(v[0]);
+            return (Number.isFinite(a) && a > 0 && a <= MAX_AMOUNT) ? '' : 'Monto inválido.';
+        },
+        onConfirm: (v) => enqueue(async () => {
+            const zero = /^\s*(0|ninguno|quitar|sin limite)\s*$/i.test(stripAccents(v[0]));
+            const amt = zero ? 0 : parseSpanishAmount(v[0]);
+            const prior = cloneState(state), next = cloneState(state);
+            next.monthlyBudget = amt;
+            if (await commitStateTransaction(next, prior, 'Presupuesto mensual')) {
+                updateUI();
+                showModal('Guardado', amt > 0 ? 'Presupuesto mensual: ' + formatCurrency(amt) : 'Límite mensual eliminado.');
+            } else showModal('Error', lastError);
+        })
+    });
+}
+
+function openCurrencyModal() {
+    showModal('Moneda', 'Elige el símbolo que se muestra en todos los montos (no convierte valores).', {
+        body: (c) => {
+            CURRENCIES.forEach(sym => {
+                const b = el('button', 'rowbtn');
+                b.type = 'button';
+                const lbl = el('span', null, sym + (sym === state.currency ? '  ✓' : ''));
+                b.appendChild(lbl);
+                b.onclick = () => {
+                    closeModal();
+                    enqueue(async () => {
+                        const prior = cloneState(state), next = cloneState(state);
+                        next.currency = sym;
+                        if (await commitStateTransaction(next, prior, 'Cambio de moneda')) updateUI(); else showModal('Error', lastError);
+                    });
+                };
+                c.appendChild(b);
+            });
+        }
+    });
+}
+
+function clearAllData() {
+    showModal('¿Reiniciar la bóveda?', 'Se borrarán TODOS los movimientos y proyectos. Se guardará un punto de restauración para poder deshacerlo desde «Respaldos».', {
+        confirmText: 'Sí, reiniciar',
+        onConfirm: () => enqueue(async () => {
+            const prior = cloneState(state);
+            const fresh = emptyState();
+            fresh.currency = state.currency;
+            if (await commitStateTransaction(fresh, prior, 'Reinicio de la bóveda')) { updateUI();  }
+            else showModal('Error', lastError);
+        })
+    });
+}
+
+// =========================================================================
+// 5. SEGURIDAD, RESPALDOS, EXPORTAR / IMPORTAR
+// =========================================================================
+function openSecurityModal() {
+    if (!CRYPTO_OK) { showModal('Cifrado no disponible', 'Este navegador o contexto no permite WebCrypto. Abre el archivo desde un navegador moderno (Chrome, Edge, Firefox o Safari).'); return; }
+    if (!isEncryptionEnabled) { openEnableEncryptionModal(); return; }
+    showModal('Seguridad', 'El cifrado AES-256-GCM está activo. La clave no se guarda en ningún lugar: si la olvidas, los datos no se pueden recuperar.', {
+        body: (c) => {
+            const b1 = el('button', 'rowbtn'); b1.type = 'button'; b1.appendChild(el('span', null, '🔑 Cambiar clave maestra'));
+            b1.onclick = () => { closeModal(); openChangePassModal(); };
+            const b2 = el('button', 'rowbtn'); b2.type = 'button'; b2.appendChild(el('span', null, '🔓 Desactivar cifrado'));
+            b2.onclick = () => { closeModal(); openDisableEncryptionModal(); };
+            c.appendChild(b1); c.appendChild(b2);
+        }
+    });
+}
+
+function passwordFieldsValidate(v, offset) {
+    const p1 = v[offset], p2 = v[offset + 1];
+    if (!p1 || p1.length < MIN_PASS) return 'La clave debe tener al menos ' + MIN_PASS + ' caracteres.';
+    if (p1 !== p2) return 'Las claves no coinciden.';
+    return '';
+}
+
+function openEnableEncryptionModal() {
+    showModal('Activar cifrado', 'Elige una clave maestra de al menos ' + MIN_PASS + ' caracteres (usa una frase). No hay forma de recuperarla si la olvidas.', {
+        fields: [
+            { name: 'p1', type: 'password', label: 'Clave maestra', autocomplete: 'new-password' },
+            { name: 'p2', type: 'password', label: 'Repite la clave', autocomplete: 'new-password' }
+        ],
+        confirmText: 'Activar cifrado',
+        validate: v => passwordFieldsValidate(v, 0),
+        onConfirm: (v) => enqueue(async () => {
+            const salt = crypto.getRandomValues(new Uint8Array(16));
+            const key = await deriveKeyFromPin(v[0], salt, DEFAULT_ITER);
+            const res = await rotateSecurityConfigurationAtomic(true, key, bufToBase64(salt), DEFAULT_ITER);
+            if (res.ok) showModal('Protegido', 'Cifrado AES-256 activado. Anota tu clave en un lugar seguro: no se puede recuperar.');
+            else showModal('Error', res.reason);
+        })
+    });
+}
+
+function openChangePassModal() {
+    showModal('Cambiar clave maestra', 'Ingresa tu clave actual y elige una nueva.', {
+        fields: [
+            { name: 'cur', type: 'password', label: 'Clave actual', autocomplete: 'current-password' },
+            { name: 'p1', type: 'password', label: 'Clave nueva', autocomplete: 'new-password' },
+            { name: 'p2', type: 'password', label: 'Repite la clave nueva', autocomplete: 'new-password' }
+        ],
+        confirmText: 'Cambiar clave',
+        validate: v => v[0] ? passwordFieldsValidate(v, 1) : 'Ingresa tu clave actual.',
+        onConfirm: (v) => enqueue(async () => {
+            if (!(await verifyPin(v[0]))) { showModal('Error', 'La clave actual es incorrecta.'); return; }
+            const salt = crypto.getRandomValues(new Uint8Array(16));
+            const key = await deriveKeyFromPin(v[1], salt, DEFAULT_ITER);
+            const res = await rotateSecurityConfigurationAtomic(true, key, bufToBase64(salt), DEFAULT_ITER);
+            if (res.ok) showModal('Clave actualizada', 'Tus datos y respaldos fueron re-cifrados con la nueva clave.');
+            else showModal('Error', res.reason);
+        })
+    });
+}
+
+function openDisableEncryptionModal() {
+    showModal('Desactivar cifrado', 'Tus datos locales y respaldos quedarán SIN cifrar en este navegador. Ingresa tu clave para confirmar.', {
+        fields: [{ name: 'cur', type: 'password', label: 'Clave actual', autocomplete: 'current-password' }],
+        confirmText: 'Desactivar',
+        validate: v => v[0] ? '' : 'Ingresa tu clave actual.',
+        onConfirm: (v) => enqueue(async () => {
+            if (!(await verifyPin(v[0]))) { showModal('Error', 'La clave es incorrecta.'); return; }
+            const res = await rotateSecurityConfigurationAtomic(false, null, null, null);
+            if (res.ok) showModal('Cifrado desactivado', 'Los datos quedaron sin cifrar.');
+            else showModal('Error', res.reason);
+        })
+    });
+}
+
+async function openRecoveryModal() {
+    if (isVaultLocked) return;
+    const snaps = await getSnapshotsList();
+    if (snaps.length === 0) { showModal('Puntos de restauración', 'Todavía no hay respaldos automáticos. Se crean solos antes de cada cambio.'); return; }
+    showModal('Puntos de restauración', 'Cada punto es el estado ANTERIOR a una operación (se guardan los últimos 20). Restaurar también es reversible.', {
+        body: (c) => {
+            snaps.forEach(s => {
+                const row = el('div', 'rowbtn');
+                const info = el('div');
+                info.appendChild(el('span', null, s.reason || 'Respaldo'));
+                info.appendChild(el('small', null, new Date(s.timestamp).toLocaleString()));
+                const btn = el('button', 'mini', 'Restaurar');
+                btn.type = 'button';
+                btn.onclick = () => {
+                    closeModal();
+                    enqueue(async () => {
+                        try {
+                            let plain;
+                            if (s.encrypted) {
+                                if (!activeCryptoKey) { showModal('Error', 'Bóveda cifrada sin clave activa.'); return; }
+                                plain = await decryptObject(s.payload, activeCryptoKey);
+                            } else plain = s.payload;
+                            const v = migrateAndValidateState(plain);
+                            if (!v) { showModal('Error', 'El respaldo no es válido.'); return; }
+                            if (await commitStateTransaction(v, cloneState(state), 'Restauración de respaldo')) { updateUI();  showModal('Restaurado', 'El estado anterior fue restaurado.'); }
+                            else showModal('Error', lastError);
+                        } catch (e) { showModal('Error', 'No se pudo restaurar este respaldo.'); }
+                    });
+                };
+                row.appendChild(info); row.appendChild(btn);
+                c.appendChild(row);
+            });
+        }
+    });
+}
+
+function showHelpModal() {
+    showModal('Ayuda y portabilidad',
+        'DATOS: se guardan solo en este navegador (IndexedDB). Si borras los datos del sitio o cambias de navegador/dispositivo, se pierden: exporta respaldos con frecuencia.\n\n' +
+        'MOVER ENTRE DISPOSITIVOS: usa «Exportar» (archivo .vaultfin) y «Importar» en el otro dispositivo. Con cifrado activo el archivo va cifrado.\n\n' +
+        'CIFRADO: AES-256-GCM con clave derivada (PBKDF2). La clave no se guarda ni se puede recuperar.\n\n' +
+        'Esta página no tiene instalación PWA ni modo sin conexión propio: guárdala como archivo y ábrela cuando la necesites.');
+}
+
+function localDateStamp() {
+    const d = new Date();
+    return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+}
+
+function downloadText(text, filename) {
+    const blob = new Blob([text], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 15000);
+}
+
+async function doExport() {
+    try {
+        let payload = Object.assign({ app: 'VaultFin PRO', exportedAt: Date.now() }, cloneState(state));
+        let filename = 'vaultfin_' + localDateStamp();
+        if (isEncryptionEnabled && activeCryptoKey) {
+            const encrypted = await encryptObject(payload, activeCryptoKey);
+            payload = { vaultfin_encrypted: true, salt: activeSaltB64, iterations: activeIterations, payload: encrypted };
+            filename += '.vaultfin';
+        } else filename += '_sin_cifrar.json';
+        downloadText(JSON.stringify(payload, null, 2), filename);
+    } catch (e) { showModal('Error', 'No se pudo generar el archivo de respaldo.'); }
+}
+
+function exportData() {
+    if (isVaultLocked) return;
+    if (isEncryptionEnabled) { doExport(); return; }
+    showModal('Exportar sin cifrar', 'El archivo tendrá todos tus movimientos en texto legible. Activa el cifrado en «Seguridad» para protegerlo. ¿Exportar de todas formas?', {
+        confirmText: 'Exportar sin cifrar', onConfirm: () => doExport()
+    });
+}
+
+function confirmImport(validated) {
+    showModal('Importar datos', 'Se reemplazarán los datos actuales (' + state.transactions.length + ' movimientos) por los del archivo (' + validated.transactions.length + ' movimientos, ' + validated.projects.length + ' proyectos). Se guardará un punto de restauración.', {
+        confirmText: 'Reemplazar',
+        onConfirm: () => enqueue(async () => {
+            if (await commitStateTransaction(validated, cloneState(state), 'Importación de archivo')) { updateUI();  showModal('Importado', 'Datos importados y conciliados con éxito.'); }
+            else showModal('Error', 'No se pudo importar: ' + lastError);
+        })
+    });
+}
+
+function importData(event) {
+    const input = event.target;
+    const file = input.files && input.files[0];
+    input.value = ''; // permite volver a elegir el mismo archivo
+    if (!file || isVaultLocked) return;
+    if (file.size > 25 * 1024 * 1024) { showModal('Error', 'El archivo es demasiado grande.'); return; }
+    const reader = new FileReader();
+    reader.onerror = () => showModal('Error', 'No se pudo leer el archivo.');
+    reader.onload = (e) => {
+        let parsed;
+        try { parsed = JSON.parse(e.target.result); } catch (err) { showModal('Error', 'El archivo no es un JSON válido.'); return; }
+        if (parsed && parsed.vaultfin_encrypted) {
+            const iter = Number(parsed.iterations) || 310000;
+            if (!CRYPTO_OK || typeof parsed.salt !== 'string' || parsed.salt.length > 128 || !parsed.payload ||
+                !Number.isInteger(iter) || iter < MIN_ITER || iter > MAX_ITER) {
+                showModal('Error', 'Archivo cifrado inválido o con parámetros no permitidos.'); return;
+            }
+            showModal('Respaldo cifrado', 'Este archivo está protegido. Ingresa la clave maestra con la que se exportó.', {
+                fields: [{ name: 'pin', type: 'password', label: 'Clave del archivo', autocomplete: 'current-password' }],
+                confirmText: 'Descifrar',
+                onConfirm: async (vals) => {
+                    try {
+                        const key = await deriveKeyFromPin(vals[0], new Uint8Array(base64ToBuf(parsed.salt)), iter);
+                        const plain = await decryptObject(parsed.payload, key);
+                        const validated = migrateAndValidateState(plain);
+                        if (!validated) { showModal('Error', 'Los datos descifrados no son válidos.'); return; }
+                        confirmImport(validated);
+                    } catch (err) { showModal('Error', 'Clave incorrecta o archivo dañado.'); }
+                }
+            });
+            return;
+        }
+        const validated = migrateAndValidateState(parsed);
+        if (!validated) { showModal('Error', 'Archivo inválido o incompatible.'); return; }
+        confirmImport(validated);
+    };
+    reader.readAsText(file, 'UTF-8');
+}
+
+// =========================================================================
+// 6. MODAL GENÉRICO
+// =========================================================================
+let modalState = { onConfirm: null, onCancel: null, validate: null, fields: [] };
+
+function showModal(title, msg, opts = {}) {
+    $('modalTitle').textContent = title;
+    $('modalMessage').textContent = msg || '';
+    modalState = { onConfirm: opts.onConfirm || null, onCancel: opts.onCancel || null, validate: opts.validate || null, fields: [] };
+
+    const fieldsEl = $('modalFields');
+    fieldsEl.replaceChildren();
+    (opts.fields || []).forEach(f => {
+        const wrap = el('label', 'field');
+        if (f.label) wrap.appendChild(el('span', 'field-label', f.label));
+        const inp = document.createElement('input');
+        inp.type = f.type || 'text';
+        inp.name = f.name || 'f';
+        inp.placeholder = f.placeholder || '';
+        inp.autocomplete = f.autocomplete || 'off';
+        inp.maxLength = 200;
+        wrap.appendChild(inp);
+        fieldsEl.appendChild(wrap);
+        modalState.fields.push(inp);
+    });
+
+    const body = $('modalCustomBody');
+    body.replaceChildren();
+    if (opts.body) { opts.body(body); body.classList.remove('hidden'); } else body.classList.add('hidden');
+
+    $('modalError').classList.add('hidden');
+    $('modalCancelBtn').classList.toggle('hidden', !(opts.onConfirm || opts.onCancel));
+    $('modalConfirmBtn').textContent = opts.confirmText || (opts.onConfirm ? 'Confirmar' : 'Entendido');
+    $('modalConfirmBtn').classList.toggle('hidden', Boolean(opts.body && !opts.onConfirm && !opts.confirmText && opts.hideConfirm));
+
+    $('customModal').classList.remove('hidden');
+    if (modalState.fields[0]) setTimeout(() => modalState.fields[0].focus(), 50);
+}
+
+function closeModal() {
+    $('customModal').classList.add('hidden');
+    $('modalFields').replaceChildren();
+    $('modalCustomBody').replaceChildren();
+    $('modalCustomBody').classList.add('hidden');
+    $('modalError').classList.add('hidden');
+}
+
+function cancelModal() {
+    const cb = modalState.onCancel;
+    modalState.onCancel = null;
+    closeModal();
+    if (cb) cb();
+}
+
+function submitModal() {
+    const values = modalState.fields.map(i => i.value);
+    if (modalState.validate) {
+        const err = modalState.validate(values);
+        if (err) { const e = $('modalError'); e.textContent = err; e.classList.remove('hidden'); return; }
+    }
+    const cb = modalState.onConfirm;
+    modalState.onCancel = null;
+    closeModal();
+    if (cb) cb(values);
+}
+
+$('modalForm').addEventListener('submit', (e) => { e.preventDefault(); submitModal(); });
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !$('customModal').classList.contains('hidden')) cancelModal();
+});
+
+// =========================================================================
+// 7. FORMULARIOS DE MOVIMIENTOS
+// =========================================================================
+function setStatus(text, kind) {
+    const s = $('formStatus');
+    s.textContent = text;
+    s.className = 'status ' + (kind === 'err' ? 'err' : 'ok');
+}
+function okAmount(a) { return Number.isFinite(a) && a > 0 && a <= MAX_AMOUNT; }
+function badAmountMsg() { setStatus('⚠️ Monto inválido. Ejemplos: 500, 1,250.50, mil quinientos.', 'err'); }
+
+function updateEntryForm() {
+    const kind = $('entryKind').value;
+    $('entryProjectWrap').classList.toggle('hidden', !(kind === 'project_expense' || kind === 'allocation'));
+}
+
+function refreshEntryProjects() {
+    const sel = $('entryProject');
+    const prev = sel.value;
+    sel.replaceChildren();
+    if (state.projects.length === 0) {
+        const o = el('option', null, '(no hay proyectos todavía)');
+        o.value = '';
+        sel.appendChild(o);
+    } else {
+        state.projects.forEach(p => {
+            const o = el('option', null, p.name + ' — ' + formatCurrency(p.balance));
+            o.value = p.id;
+            sel.appendChild(o);
+        });
+        if (prev && state.projects.some(p => p.id === prev)) sel.value = prev;
+    }
+}
+
+function clearEntryForm() {
+    ['entryAmount', 'entryConcept', 'projName', 'projAmount'].forEach(id => { const x = $(id); if (x) x.value = ''; });
+    const s = $('formStatus');
+    s.textContent = '';
+    s.className = 'status hidden';
+}
+
+async function submitEntry(kind, pid, amtRaw, concept) {
+    const amount = parseSpanishAmount(amtRaw);
+    if (!okAmount(amount)) { badAmountMsg(); return false; }
+    const prior = cloneState(state), next = cloneState(state);
+    let msg = '', reason = '';
+
+    if (kind === 'income') {
+        next.transactions.unshift(newTx('income', amount, concept ? 'Ingreso: ' + concept : 'Ingreso general'));
+        msg = '✅ Ingreso registrado: +' + formatCurrency(amount); reason = 'Ingreso';
+    } else if (kind === 'expense') {
+        if (amount > state.balance) { setStatus('⚠️ Saldo insuficiente en la cuenta principal (disponible ' + formatCurrency(state.balance) + ').', 'err'); return false; }
+        next.transactions.unshift(newTx('expense', amount, concept ? 'Gasto: ' + concept : 'Gasto general'));
+        msg = '✅ Gasto registrado: -' + formatCurrency(amount); reason = 'Gasto';
+    } else {
+        const p = state.projects.find(x => x.id === pid);
+        if (!p) { setStatus('⚠️ Primero crea o elige un proyecto.', 'err'); return false; }
+        if (kind === 'project_expense') {
+            if (amount > p.balance) { setStatus('⚠️ El proyecto «' + p.name + '» solo tiene ' + formatCurrency(p.balance) + ' disponibles.', 'err'); return false; }
+            next.transactions.unshift(newTx('project_expense', amount, 'Gasto en proyecto: ' + p.name + (concept ? ' (' + concept + ')' : ''), p.id));
+            msg = '✅ Gasto de ' + formatCurrency(amount) + ' registrado en «' + p.name + '».'; reason = 'Gasto en ' + p.name;
+        } else {
+            if (amount > state.balance) { setStatus('⚠️ Saldo insuficiente en la cuenta principal (disponible ' + formatCurrency(state.balance) + ').', 'err'); return false; }
+            next.transactions.unshift(newTx('project_allocation', amount, 'Asignación a proyecto: ' + p.name, p.id));
+            msg = '✅ ' + formatCurrency(amount) + ' asignados al proyecto «' + p.name + '».'; reason = 'Asignación a ' + p.name;
+        }
+    }
+    if (!(await commitStateTransaction(next, prior, reason))) { setStatus('⚠️ No se pudo guardar: ' + lastError, 'err'); return false; }
+    updateUI();
+    setStatus(msg + (kind === 'income' || kind === 'allocation' ? '' : budgetNote()), 'ok');
+    return true;
+}
+
+async function createProject(nameRaw, amtRaw) {
+    let name = sanitizeText(nameRaw, 60);
+    const amt = parseSpanishAmount(amtRaw);
+    if (!name) { setStatus('⚠️ Escribe un nombre para el proyecto.', 'err'); return false; }
+    if (!okAmount(amt)) { badAmountMsg(); return false; }
+    name = name.charAt(0).toUpperCase() + name.slice(1);
+    if (state.projects.some(p => stripAccents(p.name.toLowerCase()) === stripAccents(name.toLowerCase()))) { setStatus('⚠️ Ya existe un proyecto llamado «' + name + '».', 'err'); return false; }
+    if (amt > state.balance) { setStatus('⚠️ Saldo insuficiente para fondear el proyecto (disponible ' + formatCurrency(state.balance) + ').', 'err'); return false; }
+    const prior = cloneState(state), next = cloneState(state);
+    const pid = generateUUID();
+    next.projects.push({ id: pid, name, balance: amt, budget: amt });
+    next.transactions.unshift(newTx('project_allocation', amt, 'Creación y asignación a proyecto: ' + name, pid));
+    if (!(await commitStateTransaction(next, prior, 'Crear proyecto ' + name))) { setStatus('⚠️ No se pudo guardar: ' + lastError, 'err'); return false; }
+    updateUI();
+    setStatus('📁 Proyecto «' + name + '» creado con ' + formatCurrency(amt) + '.', 'ok');
+    return true;
+}
+
+function handleEntrySubmit(e) {
+    e.preventDefault();
+    if (isVaultLocked) return;
+    const kind = $('entryKind').value, pid = $('entryProject').value;
+    const amt = $('entryAmount').value, concept = sanitizeText($('entryConcept').value, 60);
+    enqueue(async () => {
+        if (await submitEntry(kind, pid, amt, concept)) { $('entryAmount').value = ''; $('entryConcept').value = ''; $('entryAmount').focus(); }
+    });
+}
+
+function handleProjectSubmit(e) {
+    e.preventDefault();
+    if (isVaultLocked) return;
+    const name = $('projName').value, amt = $('projAmount').value;
+    enqueue(async () => {
+        if (await createProject(name, amt)) { $('projName').value = ''; $('projAmount').value = ''; }
+    });
+}
+
+function voidLastTransaction() {
+    if (isVaultLocked) return;
+    const cand = state.transactions.filter(t => !t.voided && t.type !== 'reversal').sort((a, b) => b.timestamp - a.timestamp)[0];
+    if (!cand) { setStatus('⚠️ No hay movimientos activos para anular.', 'err'); return; }
+    showModal('¿Anular el último movimiento?', cand.desc + ' (' + formatCurrency(cand.amount) + ')\nSe registrará un contra-asiento; el original queda en el libro.', {
+        confirmText: 'Anular',
+        onConfirm: () => enqueue(() => voidTransactionById(cand.id, m => setStatus('⚠️ ' + m, 'err')))
+    });
+}
+
+// =========================================================================
+// 9. INTERFAZ
+// =========================================================================
+function switchMainTab(tabName) {
+    const reports = tabName === 'reports';
+    $('viewEntry').classList.toggle('hidden', reports);
+    $('viewReports').classList.toggle('hidden', !reports);
+    $('tabBtnReports').classList.toggle('active', reports);
+    $('tabBtnEntry').classList.toggle('active', !reports);
+    if (reports) renderReports();
+}
+
+const TX_META = {
+    initial_balance: { sign: '+', cls: 'c-emerald' },
+    income: { sign: '+', cls: 'c-emerald' },
+    expense: { sign: '−', cls: 'c-rose' },
+    project_allocation: { sign: '→', cls: 'c-sky' },
+    project_expense: { sign: '−', cls: 'c-rose' },
+    reversal: { sign: '↩', cls: 'c-amber' }
+};
+const MAX_LEDGER_ROWS = 300;
+
+function updateUI() {
+    const projectsTotal = state.projects.reduce((acc, p) => roundMoney(acc + p.balance), 0);
+    $('mainBalance').textContent = formatCurrency(state.balance);
+    $('initialBalanceSub').textContent = 'Apertura: ' + formatCurrency(state.initialBalance);
+    $('projectsTotalBalance').textContent = formatCurrency(projectsTotal);
+    $('totalIncome').textContent = formatCurrency(state.totalIncome);
+    $('totalExpense').textContent = formatCurrency(state.totalExpense);
+    $('projectCount').textContent = state.projects.length + ' activo(s)';
+    $('currencyBtn').textContent = 'Moneda: ' + (state.currency || '$');
+
+    const projName = {};
+    state.projects.forEach(p => { projName[p.id] = p.name; });
+
+    const txContainer = $('transactionsList');
+    txContainer.replaceChildren();
+    const sorted = state.transactions.slice().sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+    if (sorted.length === 0) txContainer.appendChild(el('p', 'empty', 'Aún no hay movimientos.'));
+    sorted.slice(0, MAX_LEDGER_ROWS).forEach(t => {
+        const meta = TX_META[t.type] || { sign: '', cls: '' };
+        const row = el('div', 'tx-row' + (t.voided ? ' voided' : ''));
+        const left = el('div', 'tx-main');
+        left.appendChild(el('p', 'tx-desc ' + (t.type === 'reversal' ? 'c-amber' : ''), t.desc + (t.voided ? ' [ANULADO]' : '')));
+        const m = el('div', 'tx-meta');
+        m.appendChild(el('span', null, new Date(t.timestamp).toLocaleString()));
+        if (!t.voided && t.type !== 'reversal') {
+            const rev = el('button', 'link-btn c-amber', 'Revertir');
+            rev.type = 'button';
+            rev.onclick = () => showModal('¿Revertir movimiento?', t.desc + ' (' + formatCurrency(t.amount) + ')\nSe registrará un contra-asiento; el original queda en el libro.', {
+                confirmText: 'Revertir',
+                onConfirm: () => enqueue(() => voidTransactionById(t.id))
+            });
+            m.appendChild(rev);
+        }
+        left.appendChild(m);
+        row.appendChild(left);
+        row.appendChild(el('span', 'tx-amt ' + meta.cls, meta.sign + ' ' + formatCurrency(t.amount)));
+        txContainer.appendChild(row);
+    });
+    const note = $('ledgerNote');
+    if (sorted.length > MAX_LEDGER_ROWS) { note.textContent = 'Mostrando los ' + MAX_LEDGER_ROWS + ' más recientes de ' + sorted.length + '.'; note.classList.remove('hidden'); }
+    else note.classList.add('hidden');
+
+    const projContainer = $('projectsList');
+    projContainer.replaceChildren();
+    if (state.projects.length === 0) projContainer.appendChild(el('p', 'empty', 'Sin proyectos. Prueba: «crear proyecto Viaje con 300».'));
+    state.projects.forEach(p => {
+        const card = el('div', 'proj-card');
+        const l = el('div');
+        l.appendChild(el('div', 'c-brand', p.name));
+        l.lastChild.style.fontWeight = '600';
+        l.appendChild(el('div', 'c-dim', 'Asignado: ' + formatCurrency(p.budget)));
+        l.lastChild.style.fontSize = '.625rem';
+        card.appendChild(l);
+        const b = el('span', null, formatCurrency(p.balance));
+        b.style.fontWeight = '700';
+        card.appendChild(b);
+        projContainer.appendChild(card);
+    });
+
+    refreshEntryProjects();
+    if (!$('viewReports').classList.contains('hidden')) renderReports();
+}
+
+function kvRow(label, value, cls) {
+    const r = el('div', 'kv');
+    r.appendChild(el('span', 'k', label));
+    r.appendChild(el('span', 'v ' + (cls || ''), value));
+    return r;
+}
+
+function renderReports() {
+    const period = $('reportPeriodSelect').value;
+    const now = new Date();
+    let cutoff = 0;
+    if (period === 'month') cutoff = monthStart();
+    else if (period === 'week') cutoff = now.getTime() - 7 * 24 * 60 * 60 * 1000;
+    else if (period === 'year') cutoff = new Date(now.getFullYear(), 0, 1).getTime();
+
+    const { income, expense } = periodTotals(cutoff);
+    const net = roundMoney(income - expense);
+    $('repIncome').textContent = formatCurrency(income);
+    $('repExpense').textContent = formatCurrency(expense);
+    $('repNet').textContent = (net >= 0 ? '+' : '') + formatCurrency(net);
+    $('repNet').className = 'val ' + (net >= 0 ? 'c-brand' : 'c-rose');
+
+    // Presupuesto: siempre contra el MES ACTUAL
+    const monthSpent = periodTotals(monthStart()).expense;
+    const budget = state.monthlyBudget || 0;
+    const bar = $('budgetProgressBar');
+    if (budget > 0) {
+        const pct = Math.round(monthSpent / budget * 100);
+        $('budgetLabel').textContent = 'Gastado ' + formatCurrency(monthSpent) + ' de ' + formatCurrency(budget);
+        bar.style.width = Math.min(100, pct) + '%';
+        bar.className = 'bar-fill' + (pct >= 100 ? ' danger' : pct >= 90 ? ' warn' : '');
+        $('budgetAlertText').textContent = pct >= 100 ? '⚠️ Superaste el presupuesto mensual.' : 'Has utilizado el ' + pct + '% de tu límite mensual.';
+    } else {
+        $('budgetLabel').textContent = 'Sin límite definido';
+        bar.style.width = '0%'; bar.className = 'bar-fill';
+        $('budgetAlertText').textContent = 'Gasto del mes: ' + formatCurrency(monthSpent) + '. Fija un límite para activar alertas.';
+    }
+
+    const dist = $('capitalDistributionContainer');
+    dist.replaceChildren();
+    const projTotal = state.projects.reduce((a, p) => roundMoney(a + p.balance), 0);
+    dist.appendChild(kvRow('Principal disponible', formatCurrency(state.balance), 'c-brand'));
+    state.projects.forEach(p => dist.appendChild(kvRow('Proyecto: ' + p.name, formatCurrency(p.balance), 'c-sky')));
+    dist.appendChild(kvRow('Capital total', formatCurrency(roundMoney(state.balance + projTotal)), 'c-emerald'));
+
+    const box = $('projectStatsContainer');
+    box.replaceChildren();
+    if (state.projects.length === 0) box.appendChild(el('p', 'empty', 'Aún no hay proyectos.'));
+    state.projects.forEach(p => {
+        const spent = roundMoney(p.budget - p.balance);
+        const pct = p.budget > 0 ? Math.min(100, Math.round(spent / p.budget * 100)) : 0;
+        const wrap = el('div', 'kv');
+        wrap.style.flexDirection = 'column'; wrap.style.alignItems = 'stretch'; wrap.style.gap = '.375rem';
+        const top = el('div', 'row-between');
+        top.appendChild(el('span', 'k', p.name));
+        top.appendChild(el('span', 'v c-brand', 'Libre ' + formatCurrency(p.balance)));
+        wrap.appendChild(top);
+        const b = el('div', 'bar bar-sm'); b.appendChild(el('div', 'bar-fill sky'));
+        b.firstChild.style.width = pct + '%';
+        wrap.appendChild(b);
+        const sub = el('span', 'c-dim', 'Gastado ' + formatCurrency(spent) + ' de ' + formatCurrency(p.budget) + ' (' + pct + '%)');
+        sub.style.fontSize = '.625rem';
+        wrap.appendChild(sub);
+        box.appendChild(wrap);
+    });
+}
+
+function setupNetworkBadge() {
+    const badge = $('offlineBadge');
+    const render = () => {
+        if (navigator.onLine) { badge.textContent = 'Datos solo en este dispositivo'; badge.className = 'badge badge-ok'; }
+        else { badge.textContent = 'Sin conexión (funciona igual)'; badge.className = 'badge badge-warn'; }
+    };
+    render();
+    window.addEventListener('online', render);
+    window.addEventListener('offline', render);
+}
+
+window.addEventListener('load', async function () {
+    setupNetworkBadge();
+    try {
+        await initDatabase();
+        await loadInitialDatabaseState();
+        updateCryptoBadge();
+        updateUI();
+    } catch (err) {
+        isVaultLocked = true;
+        showModal('Error de almacenamiento', 'No se pudo iniciar IndexedDB (¿modo privado o permisos del navegador?). No se guardará nada.');
+    }
+});
+</script>
+</body>
+</html>
+
+</body></html>
